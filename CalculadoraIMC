@@ -1,0 +1,63 @@
+import javax.swing.*;
+
+public class IMCCalculator extends JFrame {
+    private JLabel lblPeso;
+    private JLabel lblAltura;
+    private JTextField txtPeso;
+    private JTextField txtAltura;
+    private JButton btnCalcular;
+    
+    public IMCCalculator() {
+        setTitle("Calculadora de IMC");
+        setSize(300, 200);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new FlowLayout());
+        
+        lblPeso = new JLabel("Peso (Kg):");
+        txtPeso = new JTextField(10);
+        
+        lblAltura = new JLabel("Altura (Cm):");
+        txtAltura = new JTextField(10);
+        
+        btnCalcular = new JButton("Calcular");
+        btnCalcular.addActionListener(e -> calcularIMC());
+        
+        add(lblPeso);
+        add(txtPeso);
+        add(lblAltura);
+        add(txtAltura);
+        add(btnCalcular);
+        
+        setVisible(true);
+    }
+    
+    private void calcularIMC() {
+        double peso = Double.parseDouble(txtPeso.getText());
+        double altura = Double.parseDouble(txtAltura.getText()) / 100; // Converter para metros
+        
+        double imc = peso / (altura * altura);
+        String resultado = obterClassificacaoIMC(imc);
+        
+        JOptionPane.showMessageDialog(this, "Seu IMC é: " + imc + "\nClassificação: " + resultado);
+    }
+    
+    private String obterClassificacaoIMC(double imc) {
+        if (imc < 18.5) {
+            return "Abaixo do peso";
+        } else if (imc >= 18.5 && imc < 25) {
+            return "Peso normal";
+        } else if (imc >= 25 && imc < 30) {
+            return "Sobrepeso";
+        } else if (imc >= 30 && imc < 35) {
+            return "Obesidade grau I";
+        } else if (imc >= 35 && imc < 40) {
+            return "Obesidade grau II";
+        } else {
+            return "Obesidade grau III";
+        }
+    }
+    
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(IMCCalculator::new);
+    }
+}
